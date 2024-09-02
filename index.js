@@ -51,7 +51,7 @@ app.post('/add',
                 });
             }
 
-            // Update match details (same as before)
+            // Update match details 
             match.teamRuns += runsScored;
             match.teamBallsPlayed += isNoBall ? 0 : 1;
 
@@ -104,7 +104,7 @@ app.put('/edit',
 
         try {
             const { ballId, runsScored, strikerName, nonStrikerName, bowlerName, isNoBall } = req.body;
-            const ballObjectId = new mongoose.Types.ObjectId(ballId);
+            const ballObjectId = new mongoose.Types.ObjectId(`${ballId}`);
 
             const ball = await Ball.findById(ballObjectId);
             if (!ball) {
@@ -116,7 +116,7 @@ app.put('/edit',
                 return res.status(404).json({ error: 'Match data not found' });
             }
 
-            // Reverse previous ball data (same as before)
+            // Reverse previous ball data 
             match.teamRuns -= ball.runsScored;
             match.teamBallsPlayed -= ball.isNoBall ? 0 : 1;
 
@@ -131,7 +131,7 @@ app.put('/edit',
             bowler.noBalls -= ball.isNoBall ? 1 : 0;
             bowler.economyRate = bowler.runsConceded / (bowler.deliveries / 6);
 
-            // Update the ball data (same as before)
+            // Update the ball data 
             ball.runsScored = runsScored;
             ball.strikerName = strikerName;
             ball.nonStrikerName = nonStrikerName;
@@ -139,7 +139,7 @@ app.put('/edit',
             ball.isNoBall = isNoBall;
             await ball.save();
 
-            // Apply new ball data (same as before)
+            // Apply new ball data 
             match.teamRuns += runsScored;
             match.teamBallsPlayed += isNoBall ? 0 : 1;
 
